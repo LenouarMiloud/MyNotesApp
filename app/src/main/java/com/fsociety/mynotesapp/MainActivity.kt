@@ -5,10 +5,11 @@ import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.cursoradapter.widget.SimpleCursorAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    var accessDB :SQLiteDatabase = null
+    var accessDB :SQLiteDatabase? = null
     var cursor : Cursor? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
                 intArrayOf(android.R.id.text1),
                 0
         )
+        listViewNotes.adapter = listAdapter
     }
 
     override fun onDestroy() {
