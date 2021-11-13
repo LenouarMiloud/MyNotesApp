@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        android:id="@+id/saveNote"
+        android:icon="@drawable/ic_white_save"
+        android:title="save">
+    </item>
+
+    <item
+        android:id="@+id/deleteNote"
+        android:icon="@drawable/ic_white_delete"
+        android:title="delete">
+    </item>
+
+</menu>

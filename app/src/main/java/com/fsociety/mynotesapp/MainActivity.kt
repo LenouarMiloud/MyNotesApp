@@ -1,9 +1,11 @@
 package com.fsociety.mynotesapp
 
+import android.content.Intent
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.cursoradapter.widget.SimpleCursorAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -14,13 +16,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //open the Notes Details Activity
+        floatingActionButton.setOnClickListener {
+            val intent = Intent(this, NotesDetailsActivity::class.java)
+            startActivity(intent)
+        }
+
         /*Creating the datasource*/
         //create our Databse "myNotesDB"
         var objectDataBase = myNoteSQLiteOpenHelper(this)
         //access to our database
         accessDB = objectDataBase.readableDatabase
         //get the data from our DataBase
-        cursor = accessDB!!.query("myNotes", arrayOf("id","title"),
+        cursor = accessDB!!.query("myNotes", arrayOf("_id","title"),
                 null,null,null,null,null,
                 )
 

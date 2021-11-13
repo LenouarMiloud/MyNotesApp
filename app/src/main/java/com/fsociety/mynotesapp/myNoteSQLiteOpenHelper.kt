@@ -6,9 +6,9 @@ import android.database.sqlite.SQLiteOpenHelper
 
 class myNoteSQLiteOpenHelper(context: Context) : SQLiteOpenHelper(context,"myNotesDB",null,1) {
     override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL("CREATE TABLE myNotes("+
-                "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                +"title TEXT"
+        db!!.execSQL("CREATE TABLE myNotes("
+                +"_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                +"title TEXT,"
                 +"description TEXT)"
         )
 
