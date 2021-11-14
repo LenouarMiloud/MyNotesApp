@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">myNotesApp</string>
+    <string name="titleHint">Title</string>
+    <string name="descriptionHint">Description</string>
 </resources>
