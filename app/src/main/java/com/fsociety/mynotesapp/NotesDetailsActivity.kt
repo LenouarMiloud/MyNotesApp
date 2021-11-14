@@ -29,15 +29,34 @@ class NotesDetailsActivity : AppCompatActivity() {
         if(item.itemId!! == R.id.saveNote ){
             //Insert Note into Database
             val newNoteValue = ContentValues()
-            newNoteValue.put("TITLE",titleEditText.text.toString())
+
+            if(titleEditText.text.isEmpty()){
+                newNoteValue.put("TITLE","Untitled")
+            }else{
+                newNoteValue.put("TITLE",titleEditText.text.toString())
+            }
+
+
             newNoteValue.put("DESCRIPTION",descriptionEditText.text.toString())
 
             database!!.insert("myNotes",null,newNoteValue)
             Toast.makeText(this,"Note saved successful",Toast.LENGTH_LONG).show()
 
+            //clear the EditText again
+            titleEditText.setText("")
+            descriptionEditText.setText("")
+
+            //shifting the focus to title editText
+            titleEditText.requestFocus()
+
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        database!!.close()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
