@@ -1,5 +1,6 @@
 package com.fsociety.mynotesapp
 
+import android.app.AlertDialog
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
@@ -57,7 +58,10 @@ class NotesDetailsActivity : AppCompatActivity() {
             }else{
                 updateNote(newNoteValue)
             }
+        }else if(item.itemId!! == R.id.deleteNote){
+            deleteNote()
         }
+
 
         return super.onOptionsItemSelected(item)
     }
@@ -80,6 +84,19 @@ class NotesDetailsActivity : AppCompatActivity() {
     private fun updateNote(newNoteValue:ContentValues){
         database!!.update("myNotes",newNoteValue,"_id=?", arrayOf(noteId.toString()))
         Toast.makeText(this,"Note Updated!!",Toast.LENGTH_LONG).show()
+    }
+
+    private fun deleteNote(){
+
+        var dialogue:AlertDialog
+        var builder = AlertDialog.Builder(this)
+
+        //set the title
+        builder.setTitle("Delete Note")
+        builder.setMessage("Are you sure you want to delete '${titleEditText.text}'?")
+
+        database!!.delete("myNotes","_id=?", arrayOf(noteId.toString()))
+        Toast.makeText(this,"Note deleted!!",Toast.LENGTH_LONG).show()
     }
 
     override fun onDestroy() {
