@@ -36,9 +36,7 @@ class NotesDetailsActivity : AppCompatActivity() {
                titleEditText.setText(curson!!.getString(0))
                descriptionEditText.setText(curson!!.getString(1))
             }
-
         }
-
 
     }
 
@@ -48,28 +46,40 @@ class NotesDetailsActivity : AppCompatActivity() {
             //Insert Note into Database
             val newNoteValue = ContentValues()
 
-            if(titleEditText.text.isEmpty()){
-                newNoteValue.put("TITLE","Untitled")
-            }else{
-                newNoteValue.put("TITLE",titleEditText.text.toString())
+            if (titleEditText.text.isEmpty()) {
+                newNoteValue.put("TITLE", "Untitled")
+            } else {
+                newNoteValue.put("TITLE", titleEditText.text.toString())
             }
 
-
-            newNoteValue.put("DESCRIPTION",descriptionEditText.text.toString())
-
-            database!!.insert("myNotes",null,newNoteValue)
-            Toast.makeText(this,"Note saved successful",Toast.LENGTH_LONG).show()
-
-            //clear the EditText again
-            titleEditText.setText("")
-            descriptionEditText.setText("")
-
-            //shifting the focus to title editText
-            titleEditText.requestFocus()
-
+            if(noteId == 0){
+                insertData(newNoteValue)
+            }else{
+                updateNote(newNoteValue)
+            }
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun insertData(newNoteValue:ContentValues) {
+
+        newNoteValue.put("DESCRIPTION", descriptionEditText.text.toString())
+
+        database!!.insert("myNotes", null, newNoteValue)
+        Toast.makeText(this, "Note saved successful", Toast.LENGTH_LONG).show()
+
+        //clear the EditText again
+        titleEditText.setText("")
+        descriptionEditText.setText("")
+
+        //shifting the focus to title editText
+        titleEditText.requestFocus()
+    }
+
+    private fun updateNote(newNoteValue:ContentValues){
+        database!!.update("myNotes",newNoteValue,"_id=?", arrayOf(noteId.toString()))
+        Toast.makeText(this,"Note Updated!!",Toast.LENGTH_LONG).show()
     }
 
     override fun onDestroy() {
