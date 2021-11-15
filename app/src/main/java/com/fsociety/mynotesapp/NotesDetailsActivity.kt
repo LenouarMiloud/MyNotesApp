@@ -1,6 +1,7 @@
 package com.fsociety.mynotesapp
 
 import android.content.ContentValues
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +13,8 @@ import kotlinx.android.synthetic.main.activity_notes_details.*
 class NotesDetailsActivity : AppCompatActivity() {
 
     var database:SQLiteDatabase? = null
+    var noteId:Int = 0
+    var curson:Cursor? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +23,21 @@ class NotesDetailsActivity : AppCompatActivity() {
 
         val myNotesDatabaseHelper = myNoteSQLiteOpenHelper(this)
         database = myNotesDatabaseHelper.writableDatabase
+
+        noteId = intent.extras!!.get("NOTE_ID").toString().toInt()
+        //read the note title and description
+        if(noteId != 0){
+            curson = database!!.query("myNotes",
+                arrayOf("TITLE","DESCRIPTION"),
+                "_id=?", arrayOf(noteId.toString())
+                ,null,null,null)
+
+            if(curson!!.moveToFirst()){
+               titleEditText.setText(curson!!.getString(0))
+               descriptionEditText.setText(curson!!.getString(1))
+            }
+
+        }
 
 
     }

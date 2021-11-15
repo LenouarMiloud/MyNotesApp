@@ -19,10 +19,23 @@ class MainActivity : AppCompatActivity() {
 
         //open the Notes Details Activity
         floatingActionButton.setOnClickListener {
-            val intent = Intent(this, NotesDetailsActivity::class.java)
-            startActivity(intent)
+            openNotesDetailsActivity(0)
         }
 
+        listViewNotes.setOnItemClickListener { parent, view, position, id ->
+            openNotesDetailsActivity(id)
+        }
+
+    }
+
+    fun openNotesDetailsActivity(noteId:Long){
+        val intent = Intent(this,NotesDetailsActivity::class.java)
+        intent.putExtra("NOTE_ID",noteId)
+        startActivity(intent)
+    }
+
+    override fun onStart() {
+        super.onStart()
         /*Creating the datasource*/
         //create our Databse "myNotesDB"
         var objectDataBase = myNoteSQLiteOpenHelper(this)
@@ -30,16 +43,16 @@ class MainActivity : AppCompatActivity() {
         accessDB = objectDataBase.readableDatabase
         //get the data from our DataBase
         cursor = accessDB!!.query("myNotes", arrayOf("_id","title"),
-                null,null,null,null,null,
-                )
+            null,null,null,null,null,
+        )
 
         //creating the adapter
         val listAdapter = SimpleCursorAdapter(this,
-                android.R.layout.simple_list_item_1,
-                cursor,
-                arrayOf("title"),
-                intArrayOf(android.R.id.text1),
-                0
+            android.R.layout.simple_list_item_1,
+            cursor,
+            arrayOf("title"),
+            intArrayOf(android.R.id.text1),
+            0
         )
         listViewNotes.adapter = listAdapter
     }
