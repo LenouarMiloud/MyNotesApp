@@ -2,6 +2,7 @@ package com.fsociety.mynotesapp
 
 import android.app.AlertDialog
 import android.content.ContentValues
+import android.content.DialogInterface
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
@@ -95,8 +96,25 @@ class NotesDetailsActivity : AppCompatActivity() {
         builder.setTitle("Delete Note")
         builder.setMessage("Are you sure you want to delete '${titleEditText.text}'?")
 
-        database!!.delete("myNotes","_id=?", arrayOf(noteId.toString()))
-        Toast.makeText(this,"Note deleted!!",Toast.LENGTH_LONG).show()
+        //set the alert dialogue positive button
+        builder.setPositiveButton("YES",dialogueClickListner)
+        //set the alert dialogue neutral button
+        builder.setNeutralButton("Cancel",dialogueClickListner)
+
+        dialogue = builder.create()
+        //display the dialogue
+        dialogue.show()
+
+    }
+    val dialogueClickListner = DialogInterface.OnClickListener { _, which ->
+
+        if(which == DialogInterface.BUTTON_POSITIVE){
+            database!!.delete("myNotes","_id=?", arrayOf(noteId.toString()))
+            Toast.makeText(this,"Note deleted!!",Toast.LENGTH_LONG).show()
+            //close the NoteDetailsActivity 
+            finish()
+        }
+
     }
 
     override fun onDestroy() {
